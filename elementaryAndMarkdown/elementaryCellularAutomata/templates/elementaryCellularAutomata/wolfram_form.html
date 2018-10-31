@@ -6,7 +6,7 @@
     picture displayed.
 </p>
 
-<form action="/show" method="post">
+<form action="{% url 'elementaryCellularAutomata:wolfram_automata_display'%}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">
