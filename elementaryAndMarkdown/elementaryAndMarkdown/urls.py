@@ -18,5 +18,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('wolfram/', include('elementaryCellularAutomata.urls')),
+    path('markdown/', include('pasteAsMarkdown.urls')),
     path('admin/', admin.site.urls),
 ]
