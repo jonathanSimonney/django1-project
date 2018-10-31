@@ -1,3 +1,9 @@
-<pre>
-    {{ automata_string|linebreaks }}
-</pre>
+{% extends 'layout/common.html' %}
+
+{% block content %}
+<div class="flex flex-around flex-row">
+    <pre>
+        {{ automata_string|linebreaks }}
+    </pre>
+</div>
+{% endblock %}}
