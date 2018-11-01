@@ -8,7 +8,7 @@ from .views import create_pastebin
 
 class PastebinFormTests(TestCase):
     def _post_data_to_view(self, post_data):
-        return self.client.post(reverse('pasteAsMarkdown:create_pastebin'), post_data)
+        return self.client.post(reverse('pasteAsMarkdown:create_pastebin'), post_data, follow=True)
 
     def _get_latest_pastebin(self):
         return Pastebin.objects.latest("id")
@@ -52,7 +52,7 @@ class PastebinFormTests(TestCase):
         """
         self._post_data_to_view({"markdown_text": "# a title", "path": "url1"})
         response = self._post_data_to_view({"markdown_text": "# a different title", "path": "url1"})
-        self.assertContains(response, "The path you entered was already taken.")
+        self.assertContains(response, "since the path url1 was already taken,")
 
 
 class PastebinDisplayTests(TestCase):

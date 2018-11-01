@@ -3,6 +3,10 @@
 {% block content %}
     <p>
         Your markdown is interpreted as html right here
+        {% if display_path_changed %}
+            <strong> Please note that since the path {{ older_path }} was already taken,
+            we automatically generated you a new one : {{ newer_path }}</strong>
+        {% endif %}
     </p>
 
 
