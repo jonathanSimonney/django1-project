@@ -8,7 +8,7 @@ from .views import create_pastebin
 
 class PastebinFormTests(TestCase):
     def _post_data_to_view(self, post_data):
-        self.client.post(reverse('pasteAsMarkdown:create_pastebin'), post_data)
+        return self.client.post(reverse('pasteAsMarkdown:create_pastebin'), post_data)
 
     def _get_latest_pastebin(self):
         return Pastebin.objects.latest("id")
@@ -44,3 +44,30 @@ class PastebinFormTests(TestCase):
         first_pastebin = Pastebin.objects.get(path="url1")
         self.assertEqual(first_pastebin.markdown_text, "# a title")
         self.assertEqual(latest_pastebin.markdown_text, "# a different title")
+
+    def test_message_pastebin_with_existing_url(self):
+        """
+        The pastebin may be created with a text and an already existing path,
+         and a a message should be displayed to inform the user his path was changed
+        """
+        self._post_data_to_view({"markdown_text": "# a title", "path": "url1"})
+        response = self._post_data_to_view({"markdown_text": "# a different title", "path": "url1"})
+        self.assertContains(response, "The path you entered was already taken.")
+
+
+class PastebinDisplayTests(TestCase):
+    def test_markdown_is_rendered_as_html(self):
+        """
+        The pastebin transforms the markdown to html
+        """
+        Pastebin.objects.create(markdown_text="# a title", path="url1")
+        response = self.client.get(reverse('polls:index'), pastebin_path="url1")
+        self.assertContains(response, "<h1>")
+
+    def test_invalid_params_error(self):
+        """
+        A validation error is raised if an unknown path is sent
+        """
+        Pastebin.objects.create(markdown_text="# a title", path="url1")
+        response = self.client.get(reverse('polls:index'), pastebin_path="url2")
+        self.assertEqual(response.status_code, 400)
