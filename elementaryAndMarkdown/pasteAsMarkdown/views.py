@@ -15,20 +15,31 @@ class PastebinView(FormView):
 
 
 def create_pastebin(request):
+    def pastebin_exists_with_this_path(path):
+        try:
+            Pastebin.objects.get(path=path)
+        except Pastebin.DoesNotExist:
+            return False
+        return True
+
     def generate_random_path():
         while True:
             new_uuid = str(uuid.uuid4())[:40]
-            try:
-                Pastebin.objects.get(path=new_uuid)
-            except Pastebin.DoesNotExist:
+            if not pastebin_exists_with_this_path(new_uuid):
                 return new_uuid
 
-    f = PastebinForm(request.POST)
+    post = request.POST.copy()
+    user_path = post['path']
+    given_path_changed = False
+    if pastebin_exists_with_this_path(user_path):
+        post['path'] = generate_random_path()
+        given_path_changed = True
+    f = PastebinForm(post)
     if f.is_valid():
         if f.instance.path == "":
             f.instance.path = generate_random_path()
-        print(f.instance.path, f.instance.path == "")
         pastebin = f.save()
+        # use given_path_changed to display a message if we changed the user path
         return HttpResponseRedirect(reverse('pasteAsMarkdown:show_result', args=(pastebin.path,)))
     form = PastebinForm
     return render(request, 'pasteAsMarkdown/pastebin_form.html', {
