@@ -5,6 +5,7 @@ from pasteAsMarkdown.forms import PastebinForm
 from django.http import HttpResponseRedirect
 from pasteAsMarkdown.models import Pastebin
 import uuid
+from django.core.exceptions import ValidationError
 
 
 # Create your views here.
@@ -49,4 +50,10 @@ def create_pastebin(request):
 
 
 def show_pastebin(request, pastebin_path):
-    ...
+    try:
+        pastebin = Pastebin.objects.get(path=pastebin_path)
+    except Pastebin.DoesNotExist:
+        raise ValidationError("no pastebin found matching pastebin_path parameter")
+    return render(request, 'pasteAsMarkdown/pastebin_display.html', {
+        'markdown': pastebin.markdown_text,
+    })

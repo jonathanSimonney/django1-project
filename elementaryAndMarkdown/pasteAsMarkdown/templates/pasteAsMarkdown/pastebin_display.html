@@ -1,0 +1,10 @@
+{% extends 'layout/common.html' %}
+{% load md2 %}
+{% block content %}
+    <p>
+        Your markdown is interpreted as html right here
+    </p>
+
+
+    {{ markdown|markdown:"fenced-code-blocks" }}
+{% endblock %}}

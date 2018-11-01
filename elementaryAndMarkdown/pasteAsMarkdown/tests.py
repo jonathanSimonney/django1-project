@@ -56,12 +56,15 @@ class PastebinFormTests(TestCase):
 
 
 class PastebinDisplayTests(TestCase):
+    def _get_pastebin_show_response(self, path):
+        return self.client.get(reverse('pasteAsMarkdown:show_result', args=(path,)))
+
     def test_markdown_is_rendered_as_html(self):
         """
         The pastebin transforms the markdown to html
         """
         Pastebin.objects.create(markdown_text="# a title", path="url1")
-        response = self.client.get(reverse('polls:index'), pastebin_path="url1")
+        response = self._get_pastebin_show_response("url1")
         self.assertContains(response, "<h1>")
 
     def test_invalid_params_error(self):
@@ -69,5 +72,5 @@ class PastebinDisplayTests(TestCase):
         A validation error is raised if an unknown path is sent
         """
         Pastebin.objects.create(markdown_text="# a title", path="url1")
-        response = self.client.get(reverse('polls:index'), pastebin_path="url2")
+        response = self._get_pastebin_show_response("url1")
         self.assertEqual(response.status_code, 400)
