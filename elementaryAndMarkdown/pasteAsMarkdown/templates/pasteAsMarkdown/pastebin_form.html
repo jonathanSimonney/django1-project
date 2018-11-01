@@ -2,8 +2,10 @@
 
 {% block content %}
     <p>
-        Please paste your markdown here
+        Please paste your markdown here (leave the path blank to auto generate a path).
     </p>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
     <form action="{% url 'pasteAsMarkdown:create_pastebin'%}" method="post">
         {% csrf_token %}
