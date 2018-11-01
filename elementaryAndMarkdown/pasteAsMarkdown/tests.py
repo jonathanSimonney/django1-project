@@ -72,5 +72,5 @@ class PastebinDisplayTests(TestCase):
         A validation error is raised if an unknown path is sent
         """
         Pastebin.objects.create(markdown_text="# a title", path="url1")
-        response = self._get_pastebin_show_response("url1")
+        response = self._get_pastebin_show_response("url5")
         self.assertEqual(response.status_code, 400)
