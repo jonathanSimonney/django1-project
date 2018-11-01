@@ -4,7 +4,7 @@ from django.db import models
 
 class Pastebin(models.Model):
     markdown_text = models.TextField()
-    path = models.UUIDField(blank=True, unique=True)
+    path = models.CharField(blank=True, unique=True, max_length=40)
 
     # safety check in the save method itself
     def save(self, *args, **kwargs):

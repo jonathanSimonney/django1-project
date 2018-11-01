@@ -17,7 +17,7 @@ class PastebinView(FormView):
 def create_pastebin(request):
     def generate_random_path():
         while True:
-            new_uuid = uuid.uuid4()
+            new_uuid = str(uuid.uuid4())[:40]
             try:
                 Pastebin.objects.get(path=new_uuid)
             except Pastebin.DoesNotExist:
@@ -25,14 +25,15 @@ def create_pastebin(request):
 
     f = PastebinForm(request.POST)
     if f.is_valid():
-        if f.instance.path is None:
+        if f.instance.path == "":
             f.instance.path = generate_random_path()
+        print(f.instance.path, f.instance.path == "")
         pastebin = f.save()
         return HttpResponseRedirect(reverse('pasteAsMarkdown:show_result', args=(pastebin.path,)))
     form = PastebinForm
     return render(request, 'pasteAsMarkdown/pastebin_form.html', {
                         'form': form,
-                        'error_message': 'you submitted invalid data',
+                        'error_message': f.errors,
                    })
 
 
