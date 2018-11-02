@@ -2,6 +2,13 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'common/style.css' %}">
 
+<header>
+    <nav class="flex flex-row flex-around">
+        <a href="{% url 'elementaryCellularAutomata:wolfram_automata'%}" class="button">wolfram automaton</a>
+        <a href="{% url 'pasteAsMarkdown:markdown_paste'%}" class="button">paste as markdown</a>
+    </nav>
+</header>
+
 <main>
     {% block content %}
     {% endblock %}

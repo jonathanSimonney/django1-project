@@ -1,9 +1,13 @@
 {% extends 'layout/common.html' %}
 
 {% block content %}
+<p class="text-center">
+    Here is the automaton for rule {{ rule_number }} :
+</p>
+
 <div class="flex flex-around flex-row">
     <pre>
         {{ automata_string|linebreaks }}
     </pre>
 </div>
-{% endblock %}}
+{% endblock %}

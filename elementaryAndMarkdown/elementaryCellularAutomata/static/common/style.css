@@ -1,3 +1,9 @@
+:root {
+    --main-color: #37ff30;
+    --main-bg-color: #237510;
+    --button-height: 25px;
+}
+
 main{
     width: 80%;
     margin: 50px auto;
@@ -21,4 +27,37 @@ main{
 
 .flex-around{
     justify-content: space-around;
+}
+
+.text-center{
+    text-align: center;
+}
+
+body{
+    margin: 0;
+}
+
+header{
+    background-color: var(--main-bg-color);
+    color: var(--main-color);
+    width: 100vw;
+    height: 100px;
+}
+
+header nav{
+    height: 100%;
+}
+
+.button{
+    background-color: var(--main-color);
+    color: var(--main-bg-color);
+    height: var(--button-height);
+    padding: 5px;
+    margin: auto 5px;
+    text-decoration: none;
+}
+
+.button:hover{
+    background-color: var(--main-bg-color);
+    color: var(--main-color);
 }

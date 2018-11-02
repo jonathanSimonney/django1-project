@@ -78,6 +78,7 @@ def wolfram_display(request):
     print(string_representation)
     return render(request, 'elementaryCellularAutomata/wolfram_display.html', {
         'automata_string': string_representation,
+        'rule_number': rule_number,
     })
 
 

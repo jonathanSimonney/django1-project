@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from . import views
 
 urlpatterns = [
     path('wolfram/', include('elementaryCellularAutomata.urls')),
     path('markdown/', include('pasteAsMarkdown.urls')),
     path('admin/', admin.site.urls),
+    path('', views.home_display),
 ]
