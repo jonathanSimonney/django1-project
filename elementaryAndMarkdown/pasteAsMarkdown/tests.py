@@ -54,6 +54,20 @@ class PastebinFormTests(TestCase):
         response = self._post_data_to_view({"markdown_text": "# a different title", "path": "url1"})
         self.assertContains(response, "since the path url1 was already taken,")
 
+    def test_no_message_pastebin_without_url(self):
+        """
+        no message should be displayed to inform the user his path was changed if he didn't choose a path
+        """
+        response = self._post_data_to_view({"markdown_text": "# a different title", "path": ""})
+        self.assertNotContains(response, "was already taken,")
+
+    def test_no_message_pastebin_with_new_url(self):
+        """
+        no message should be displayed to inform the user his path was changed if the path he chose wasn't taken
+        """
+        response = self._post_data_to_view({"markdown_text": "# a different title", "path": "url1"})
+        self.assertNotContains(response, "was already taken,")
+
 
 class PastebinDisplayTests(TestCase):
     def _get_pastebin_show_response(self, path):

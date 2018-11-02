@@ -66,7 +66,8 @@ def show_pastebin(request, pastebin_path):
     except Pastebin.DoesNotExist:
         raise ValidationError("no pastebin found matching pastebin_path parameter")
     get = request.GET
-    path_changed = bool(get['pathChanged']) if 'pathChanged' in get else False
+
+    path_changed = get['pathChanged'] == "True" if 'pathChanged' in get else False
     older_path = get['olderPath'] if 'olderPath' in get else None
     newer_path = get['newerPath'] if 'newerPath' in get else None
 
