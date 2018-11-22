@@ -15,11 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import routers
+
 from . import views
+
+from pastebinApi import views as apiViews
+router = routers.DefaultRouter()
+router.register(r'users', apiViews.UserViewSet)
+router.register(r'groups', apiViews.GroupViewSet)
+
+# print(include(router.urls))
+# print(include('pastebinApi.urls'))
 
 urlpatterns = [
     path('wolfram/', include('elementaryCellularAutomata.urls')),
     path('markdown/', include('pasteAsMarkdown.urls')),
     path('admin/', admin.site.urls),
     path('', views.home_display),
+    path('api/', include(router.urls)),
+    # path('api/', include('pastebinApi.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]
